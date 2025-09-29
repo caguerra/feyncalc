@@ -218,6 +218,8 @@ pakProcess[{uPolyRaw_, fPolyRaw_, powsRaw_List, matRaw_List, QRaw_List, JRaw_, t
 
 			rulePowers = Map[Rule[#[[1]], optPowerMark[#[[3]]] #[[1]]] &, pows] /. optPowerMark[1]->1;
 
+			FCPrint[2, "FCLoopToPakForm: pakProcess: rulePowers: ", rulePowers, FCDoControl -> fctpfVerbose];
+
 			{uPoly, fPoly} = {uPoly, fPoly} /. rulePowers;
 
 			pPoly = optCharacteristicPolynomial[uPoly,fPoly];

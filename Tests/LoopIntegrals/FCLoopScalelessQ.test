@@ -73,5 +73,22 @@ asyR3prop2Ltopo01300X01102N1, {SFAD[{{I*p3, 0}, {0, -1}, 1}],
 	SFAD[{{0, p3 . q}, {0, -1}, 1}]}, {p1, p3},
 	{q}, {SPD[q, q] -> mb^2}, {}]}]","{True}"},
 {"fcstFCLoopScalelessQ-ID21",
-"FCLoopScalelessQ[SPD[p, q] FAD[p - q, p - q], {p}]", "True"}
+"FCLoopScalelessQ[SPD[p, q] FAD[p - q, p - q], {p}]", "True"},
+{"fcstFCLoopScalelessQ-ID22",
+"FCLoopScalelessQ[{GLI[fctopology10C, {1, 0, 1, 1, 1, 0, -1}],
+GLI[fctopology10C, {1, 0, 1, 1, 1, 0, 0}]}, {FCTopology[
+fctopology10C, {SFAD[{{k1, 0}, {0, 1}, 1}],
+	SFAD[{{k1 + q1, 0}, {0, 1}, 1}], SFAD[{{k2, 0}, {mt^2, 1}, 1}],
+	SFAD[{{k2 + q2, 0}, {mt^2, 1}, 1}],
+	SFAD[{{k1 + k2, 0}, {mt^2, 1}, 1}],
+	SFAD[{{k1 + k2 + q1 + q2, 0}, {mt^2, 1}, 1}],
+	SFAD[{{0, k1 . q2}, {0, 1}, 1}]}, {k1, k2}, {q1,
+	q2}, {Hold[Pair][Momentum[q1, D], Momentum[q1, D]] -> 0,
+	Hold[Pair][Momentum[q2, D], Momentum[q2, D]] -> 0,
+	Hold[Pair][Momentum[q1, D], Momentum[q2, D]] -> s/2}, {}]}]", "{True,False}"},
+{"fcstFCLoopScalelessQ-ID21",
+"FCLoopScalelessQ[GLI[tp1, {0, 1, 0, 1, 0, 1, 0}],{FCTopology[tp1, {SFAD[k], SFAD[k + p1],
+SFAD[k + p1 + p2], SFAD[{l + p1 + p2, mt^2}], SFAD[{l + p1, mt^2}],
+SFAD[{l, mt^2}], SFAD[{k - l, mt^2}]}, {k, l}, {p1, p2},
+{Hold[SPD][p1, p1] -> 0, Hold[SPD][p2, p2] -> 0, Hold[SPD][p1, p2] -> s/2}, {}]}]", "True"}
 });

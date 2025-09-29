@@ -92,6 +92,7 @@ Options[FCFeynmanPrepare] = {
 	FinalSubstitutions		-> {},
 	Indexed					-> True,
 	"IgnoreNumerator"		-> False,
+	"MarkNonUnitNumerators"	-> False,
 	LoopMomenta				-> Function[{x,y},FCGV["lmom"][x,y]],
 	LorentzIndexNames		-> FCGV["mu"],
 	Names					-> FCGV["x"],
@@ -258,8 +259,10 @@ FCFeynmanPrepare[topoRaw_FCTopology, opts:OptionsPattern[]] :=
 FCFeynmanPrepare[expr_/;FreeQ[expr,{GLI,FCTopology}], lmomsRaw_List /; !OptionQ[lmomsRaw], OptionsPattern[]] :=
 	Block[{	feynX, propProduct, tmp, symF, symU, ex, spd, qkspd, mtmp,
 			matrix, nDenoms, res, constraint, tmp0, powers, lmoms,
-			optFinalSubstitutions, optNames, aux1, aux2, nProps, fpJ, fpQ, optFCReplaceMomenta,
-			null1, null2, tensorPart, scalarPart, time, tcHideRule={}, sortBy, pref, etaSigns, optExtraPropagators},
+			optFinalSubstitutions, optNames, aux1, aux2, nProps, fpJ,
+			fpQ, optFCReplaceMomenta, null1, null2, tensorPart, scalarPart,
+			time, tcHideRule={}, sortBy, pref, etaSigns, optExtraPropagators,
+			nonUnitNum = False},
 
 		optNames				= OptionValue[Names];
 		optFinalSubstitutions	= OptionValue[FinalSubstitutions];
@@ -383,6 +386,12 @@ FCFeynmanPrepare[expr_/;FreeQ[expr,{GLI,FCTopology}], lmomsRaw_List /; !OptionQ[
 		(* We don't need this list of scalar products here and removing it makes the output a transposable matrix *)
 		tmp[[2]] = ConstantArray[0,Length[tmp[[1]]]];
 
+		If[	OptionValue["MarkNonUnitNumerators"],
+			If[	MatchQ[tmp[[3]], {___, _?Negative, ___}],
+				nonUnitNum=True
+			]
+		];
+
 		If[	OptionValue["IgnoreNumerator"],
 			FCPrint[1, "FCFeynmanPrepare: Ignoring the numerator of the loop integral.", FCDoControl -> fcszVerbose];
 			tmp = Transpose[Transpose[tmp] /. {_,_,n_/;n<0,_} :> Unevaluated[Sequence[]]]
@@ -479,6 +488,7 @@ FCFeynmanPrepare[expr_/;FreeQ[expr,{GLI,FCTopology}], lmomsRaw_List /; !OptionQ[
 		FCPrint[1, "FCFeynmanPrepare: Constructing U and F.", FCDoControl -> fcszVerbose];
 
 		tmp = ExpandScalarProduct[tmp, Momentum -> lmoms, FCI -> True];
+		FCPrint[3,"FCFeynmanPrepare: tmp for buildF: ", tmp, FCDoControl->fcszVerbose];
 		{symU, symF} = Fold[buildF, {1, tmp}, lmoms];
 
 		FCPrint[1, "FCFeynmanPrepare: U and F ready, timing: ", N[AbsoluteTime[] - time, 4], FCDoControl->fcszVerbose];
@@ -559,6 +569,11 @@ FCFeynmanPrepare[expr_/;FreeQ[expr,{GLI,FCTopology}], lmomsRaw_List /; !OptionQ[
 
 		If[	OptionValue[FCE],
 			res = FCE[res]
+		];
+
+		(*This is needed only for FCLoopScalelessQ, so breaking the convention is not an issue.*)
+		If[	OptionValue["MarkNonUnitNumerators"],
+			res = Join[res,{nonUnitNum}]
 		];
 
 		FCPrint[1,"FCFeynmanPrepare: Leaving.", FCDoControl->fcszVerbose];
