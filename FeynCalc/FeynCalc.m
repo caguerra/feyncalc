@@ -252,9 +252,9 @@ Remove["FeynCalc`repList"];
 
 
 (* If necessary, swtich the output format of the current frontend to TraditionalForm *)
-If[	$FCTraditionalFormOutput,
+Quiet[If[	$FCTraditionalFormOutput,
 	CurrentValue[$FrontEndSession, {CommonDefaultFormatTypes, "Output"}] = TraditionalForm
-];
+];,FrontEndObject::notavail];
 
 If[ !$Notebooks && $FeynCalcStartupMessages,
 	$PrePrint = FeynCalcForm;
