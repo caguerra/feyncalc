@@ -72,5 +72,12 @@ c4 FeynAmpDenominator[
 c5 FeynAmpDenominator[
 	StandardPropagatorDenominator[
 	0, -Pair[Momentum[p1, D], Momentum[q, D]], 0, {1, 1}]]}, {p1,
-p3}, {q}, {Pair[Momentum[q, D], Momentum[q, D]] -> mb^2}, {}]]", "True"}
+p3}, {q}, {Pair[Momentum[q, D], Momentum[q, D]] -> mb^2}, {}]]", "True"},
+{"fcstFCLoopValidTopologyQ-ID10",
+"Quiet[FCLoopValidTopologyQ[
+FCTopology[
+tp1, {SFAD[k1], SFAD[k + p1], SFAD[k + p1 + p2],
+	SFAD[{l + p1 + p2, mt^2}], SFAD[{l + p1, mt^2}], SFAD[{l, mt^2}],
+	SFAD[{k - l, mt^2}]}, {k, l}, {p1, p2}, {Hold[SPD][p1, p1] -> 0,
+	Hold[SPD][p2, p2] -> 0, Hold[SPD][p1, p2] -> s/2}, {}]]]", "False"}
 });
