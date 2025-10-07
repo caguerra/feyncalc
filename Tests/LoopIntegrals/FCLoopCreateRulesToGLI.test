@@ -52,7 +52,7 @@ GLI[topo1, {0, -1, 0}]/2 - GLI[topo1, {0, 0, -1}]/2}"},
 {"fcstFCLoopCreateRulesToGLI-ID6",
 "FCLoopCreateRulesToGLI[FCTopology[prop2Lv1,
 {SFAD[{p1, m1^2}], SFAD[{p2, m2^2}], SFAD[p1 - q], SFAD[p2 - q], \
-SFAD[{p1 - p2, m3^2}]}, {p1, p2}, {Q}, {}, {}],FCE->True]",
+SFAD[{p1 - p2, m3^2}]}, {p1, p2}, {q}, {}, {}],FCE->True]",
 "{SPD[p1, p1] -> m1^2 + GLI[prop2Lv1, {-1, 0, 0, 0, 0}], SPD[p2, p2] -> m2^2 + GLI[prop2Lv1, {0, -1, 0, 0, 0}],
 SPD[p1, p2] -> (m1^2 + m2^2 - m3^2)/2 + GLI[prop2Lv1, {-1, 0, 0, 0, 0}]/2 + GLI[prop2Lv1,
 {0, -1, 0, 0, 0}]/2 - GLI[prop2Lv1, {0, 0, 0, 0, -1}]/2, SPD[p1, q] -> GLI[prop2Lv1,

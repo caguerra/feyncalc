@@ -520,12 +520,10 @@ tmp = FCLoopFindIntegralMappings[{GLI[
 $ParallelizeFeynCalc = False; tmp",
 "{{}, {GLI[topology10, {1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0}],
 GLI[topology10, {1, 1, 1, 1, 1, 0, 0, 2, 0, 0, 0, 0}]}}"},
-
 {"fcstFCLoopFindIntegralMappings-ID15",
 "FCLoopFindIntegralMappings[{GLI[
 fctopology10C, {1, 0, 1, 1, 1, 0, -1}],
-GLI[fctopology10C, {1, 0, 1, 1, 1, 0, 0}]},
-topo = {FCTopology[
+GLI[fctopology10C, {1, 0, 1, 1, 1, 0, 0}]}, {FCTopology[
 	fctopology10C, {SFAD[{{k1, 0}, {0, 1}, 1}],
 	SFAD[{{k1 + q1, 0}, {0, 1}, 1}], SFAD[{{k2, 0}, {mt^2, 1}, 1}],
 	SFAD[{{k2 + q2, 0}, {mt^2, 1}, 1}],
