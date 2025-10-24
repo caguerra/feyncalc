@@ -45,7 +45,8 @@ Options[ComplexConjugate] = {
 	FCE						-> False,
 	FCI						-> False,
 	FCRenameDummyIndices	-> True,
-	FCVerbose				-> False
+	FCVerbose				-> False,
+	"ExtraIndices"			-> {}
 };
 
 (*TODO Check denominators using FCExtractDenominatorFactors*)
@@ -196,7 +197,7 @@ ComplexConjugate[expr_/;!MemberQ[{List,Equal,Rule,RuleDelayed},Head[expr]], Opti
 		If[	OptionValue[FCRenameDummyIndices],
 			time = AbsoluteTime[];
 			FCPrint[1,"ComplexConjugate: Renaming dummy indices in the final result.", FCDoControl->ccjVerbose];
-			res = FCRenameDummyIndices[res, FCI->True];
+			res = FCRenameDummyIndices[res, FCI->True, Head->Join[OptionValue[FCRenameDummyIndices, Head], OptionValue["ExtraIndices"]]];
 			FCPrint[1,"ComplexConjugate: Done renaming dummy indices in the final result, timing: ", N[AbsoluteTime[] - time, 4], FCDoControl->ccjVerbose];
 			FCPrint[3,"ComplexConjugate: After FCRenameDummyIndices: ", res, FCDoControl->ccjVerbose]
 		];
