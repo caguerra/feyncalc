@@ -92,7 +92,7 @@ End[]
 
 Begin["`PaVeIntegrals`Private`"]
 
-PaVeHeadsList  = {PaVe,GenPaVe,A0,A00,B0,B00,B1,B11,DB1,C0,D0};
+PaVeHeadsList  = {PaVe,GenPaVe,A0,A00,B0,B00,B1,B11,DB0,DB1,C0,D0};
 ClearAttributes[B0, ReadProtected];
 ClearAttributes[B00, ReadProtected];
 ClearAttributes[B1, ReadProtected];
