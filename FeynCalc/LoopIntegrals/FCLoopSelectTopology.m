@@ -48,13 +48,6 @@ FCLoopSelectTopology[ex_/;Head[ex]=!=List, topos:{__FCTopology}, opts:OptionsPat
 FCLoopSelectTopology[glisRaw_List, topos:{__FCTopology}, OptionsPattern[]] :=
 	Block[{res, glis, gliTopos, null, optOneToOne, aux},
 
-		If[	OptionValue[Check],
-			If[	!FCLoopValidTopologyQ[topos],
-				Message[FCLoopSelectTopology::failmsg, "The supplied list of topologie is incorrect."];
-				Abort[]
-			];
-		];
-
 		optOneToOne = OptionValue["OneToOneCorrespondence"];
 
 		If[	TrueQ[!MatchQ[glisRaw, {__GLI}]],
@@ -86,6 +79,13 @@ FCLoopSelectTopology[glisRaw_List, topos:{__FCTopology}, OptionsPattern[]] :=
 		If[	res==={},
 			Message[FCLoopSelectTopology::failmsg,"There are no topologies that appear in the given list of GLIs"];
 			Abort[]
+		];
+
+		If[	OptionValue[Check],
+			If[	!FCLoopValidTopologyQ[FCE],
+				Message[FCLoopSelectTopology::failmsg, "The supplied list of topologie is incorrect."];
+				Abort[]
+			];
 		];
 
 		If[	OptionValue[FCE],
