@@ -183,6 +183,10 @@ FAD[{q1,m}, {q1-p,m}, q2, ...] is $\\frac{1}{[q1^2 - m^2][(q1-p)^2 - m^2]
 q2^2}$. Translation into FeynCalc internal form is performed by
 FeynCalcInternal.";
 
+FCIndexDelta::usage =
+"FCIndexDelta[indHead[a,dim], indHead[b,dim]] is a generic Kronecker-delta for
+some indices a and b with the dimensions dim.";
+
 FCTopology::usage=
 "FCTopology[id, {prop1, prop2, ...}, {l1, l2, ...}, {p1, p2, ...}, {kRule1,
 kRule2, ...}, {}] denotes a topology with the identifier id that is
@@ -1069,8 +1073,8 @@ PauliEta::usage =
 stands for $\\eta^{\\dagger }$.";
 
 PauliEtaC::usage =
-"PauliEtaC[I] represents a two-component Pauli spinor $\\eta_C$, while PauliEtaC[-I]
-stands for $\\eta_C^{\\dagger }$.";
+"PauliEta[I] represents a two-component Pauli spinor $\\eta_C$, while
+PauliEtaC[-I] stands for $\\eta_C^{\\dagger }$.";
 
 TemporalMomentum::usage =
 "TemporalMomentum[p]  is the head of the temporal component of a $4$-momentum
@@ -1484,6 +1488,7 @@ Conjugate[x_Pair] :=
 	Polarization[k, Conjugate[a], o]} ) /;!FreeQ[x, Polarization];
 Protect[Conjugate];
 
+SetAttributes[FCIndexDelta,Orderless];
 SetAttributes[DIDelta, Orderless];
 SetAttributes[DiracIndexDelta, Orderless];
 SetAttributes[PIDelta, Orderless];
