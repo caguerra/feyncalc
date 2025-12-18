@@ -82,7 +82,7 @@ FCLoopSelectTopology[glisRaw_List, topos:{__FCTopology}, OptionsPattern[]] :=
 		];
 
 		If[	OptionValue[Check],
-			If[	!FCLoopValidTopologyQ[FCE],
+			If[	!FCLoopValidTopologyQ[DeleteDuplicates[Flatten[res]]],
 				Message[FCLoopSelectTopology::failmsg, "The supplied list of topologie is incorrect."];
 				Abort[]
 			];
