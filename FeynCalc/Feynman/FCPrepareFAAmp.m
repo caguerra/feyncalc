@@ -144,9 +144,17 @@ FCPrepareFAAmp[expr_, OptionsPattern[]] :=
 		];
 
 		If[ OptionValue[UndoChiralSplittings],
+
 			temp = temp//.{
 
 				(*Single chains*)
+
+				(* P_R + R_L -> g^5 *)
+				(a1__ DiracGamma[6] a2__ - a1__ DiracGamma[7] a2__) :>
+					a1 DiracGamma[5] a2,
+
+				(a1__ DiracGamma[7] a2__ + b1__ DiracGamma[6] b2__)/;(PossibleZeroQ[a1*a2+b1*b2]) :>
+					a1 (-DiracGamma[5]) a2,
 
 				(* g^mu P_R + g^mu R_L -> g^mu *)
 				(a1__ DiracGamma[x_].DiracGamma[6] a2__ + a1__ DiracGamma[x_].DiracGamma[7] a2__) :>
