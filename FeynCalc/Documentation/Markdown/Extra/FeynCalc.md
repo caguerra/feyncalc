@@ -85,7 +85,7 @@ FeynCalc is a Mathematica package for algebraic calculations in Quantum Field Th
 - [Nf](../Nf.md) - number of flavors $n_f$
 - [Pair](../Pair.md) - special pairing used in the internal representation to represent the metric, scalar products or $4$-vectors
 - [PCHN](../PCHN.md), [PauliChain](../PauliChain.md) - Pauli chain with explicit open Pauli indices
-- [PauliEta](../PauliEta.md), [PauliXi](../PauliXi.md) - Pauli spinors
+- [PauliEta](../PauliEta.md), [PauliEtaC](../PauliEtaC.md), [PauliXi](../PauliXi.md) - Pauli spinors
 - [PauliIndexDelta](../PauliIndexDelta.md), [PIDelta](../PIDelta.md) - Kronecker delta in the Pauli space
 - [PauliSigma](../PauliSigma.md) - internal representation of Pauli matrices
 - [Polarization](../Polarization.md) - internal representation of polarizations

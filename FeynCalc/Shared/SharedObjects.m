@@ -1068,6 +1068,10 @@ PauliEta::usage =
 "PauliEta[I] represents a two-component Pauli spinor $\\eta$, while PauliEta[-I]
 stands for $\\eta^{\\dagger }$.";
 
+PauliEtaC::usage =
+"PauliEtaC[I] represents a two-component Pauli spinor $\\eta_C$, while PauliEtaC[-I]
+stands for $\\eta_C^{\\dagger }$.";
+
 TemporalMomentum::usage =
 "TemporalMomentum[p]  is the head of the temporal component of a $4$-momentum
 $p^0$. The internal representation of the temporal component $p^0$ is
@@ -1438,6 +1442,7 @@ DeclareNonCommutative[SUNT];
 DeclareNonCommutative[PauliSigma];
 DeclareNonCommutative[PauliXi];
 DeclareNonCommutative[PauliEta];
+DeclareNonCommutative[PauliEtaC];
 DeclareNonCommutative[TGA];
 DeclareNonCommutative[CGA];
 DeclareNonCommutative[CGAD];
@@ -1529,7 +1534,7 @@ Options[Polarization] = {Transversality -> False};
 	Instead we should use a syntax checker function that will be applied to the given expression *)
 DiracHeadsList = {DiracGamma,Spinor,DiracSigma,DiracChain, DiracIndexDelta, DiracTrace};
 
-PauliHeadsList = {PauliSigma,PauliXi,PauliEta, PauliChain, PauliIndexDelta, PauliTrace};
+PauliHeadsList = {PauliSigma,PauliXi,PauliEta, PauliEtaC, PauliChain, PauliIndexDelta, PauliTrace};
 
 SUNHeadsList = {SUNT,SUNTF,SUNF,SUNIndex,SUNFIndex,SUNDelta,SUNN,CA,CF};
 
@@ -2939,13 +2944,13 @@ PauliChain[0,__]:=
 PauliChain[_,0]:=
 	0;
 
-PauliChain[1, (i:(_PauliEta|_PauliXi)), j : (_PauliIndex | _ExplicitPauliIndex)]:=
+PauliChain[1, (i:(_PauliEta|_PauliEtaC|_PauliXi)), j : (_PauliIndex | _ExplicitPauliIndex)]:=
 	PauliChain[i,j];
 
 PauliChain[x_/;x=!=1, i_,j_]/; FreeQ2[{FCI[x]},PauliHeadsList] && FCPatternFreeQ[{x,i,j}]:=
 	x PauliChain[1, i,j];
 
-PauliChain[1, a:(_PauliEta|_PauliXi), b:(_PauliEta|_PauliXi)]:=
+PauliChain[1, a:(_PauliEta|_PauliEtaC|_PauliXi), b:(_PauliEta|_PauliEtaC|_PauliXi)]:=
 	PauliChain[a,b];
 
 PauliChain[a_?NumberQ b_DOT, i_, j_]:=
@@ -2957,7 +2962,7 @@ PCHN[0,__]:=
 PCHN[_,0]:=
 	0;
 
-PCHN[1,a:(_PauliEta|_PauliXi),b:(_PauliEta|_PauliXi)]:=
+PCHN[1,a:(_PauliEta|_PauliEtaC|_PauliXi),b:(_PauliEta|_PauliEtaC|_PauliXi)]:=
 	PCHN[a,b];
 
 

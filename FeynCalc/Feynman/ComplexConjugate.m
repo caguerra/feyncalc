@@ -330,6 +330,9 @@ pauliChainCC[PauliXi[Complex[0,arg_]]]:=
 pauliChainCC[PauliEta[Complex[0,arg_]]]:=
 	PauliEta[Complex[0,-arg]];
 
+pauliChainCC[PauliEtaC[Complex[0,arg_]]]:=
+	PauliEtaC[Complex[0,-arg]];
+
 pauliChainCC[ex_holdDOT]:=
 	Block[{	res=ex, pauliSigmaHold},
 

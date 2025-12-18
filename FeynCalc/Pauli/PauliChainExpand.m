@@ -112,7 +112,7 @@ chLinExp[null1|null2,__]:=0;
 chLin[xx_, i_]:=
 	chLinExp[xx, i];
 
-chLin[xx_, i : (_PauliIndex | _ExplicitPauliIndex | _PauliXi | _PauliEta), j : (_PauliIndex | _ExplicitPauliIndex | _PauliXi | _PauliEta)] :=
+chLin[xx_, i : (_PauliIndex | _ExplicitPauliIndex | _PauliXi | _PauliEta| _PauliEtaC), j : (_PauliIndex | _ExplicitPauliIndex | _PauliXi | _PauliEta| _PauliEtaC)] :=
 	Map[chLinExp[#,i,j]&,expandFu[xx]+null1+null2];
 
 expandFu[xx_]:=
