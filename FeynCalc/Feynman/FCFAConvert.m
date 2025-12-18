@@ -103,7 +103,7 @@ FCFAConvert[(FeynArts`FAFeynAmpList|FeynAmpList)[infos__][diags___], OptionsPatt
 				repRulePolVectors,inMoms,outMoms,liNames,polVecs,loopMoms,dim,
 				sunNames, sunfNames, repRuleSUNIndices, repRuleSUNFIndices,
 				prefactor, inFAMoms, outFAMoms, loopFAMoms, lorentzIndices,
-				sunIndices, sunfIndices, sumOverInds},
+				sunIndices, sunfIndices, sumOverInds, check},
 
 		inMoms		= OptionValue[IncomingMomenta];
 		outMoms		= OptionValue[OutgoingMomenta];
@@ -153,9 +153,10 @@ FCFAConvert[(FeynArts`FAFeynAmpList|FeynAmpList)[infos__][diags___], OptionsPatt
 		If[	OptionValue[DropSumOver],
 			If[	!FreeQ[diagsConverted,FeynArts`SumOver],
 				sumOverInds=Cases[diagsConverted,FeynArts`SumOver[a_,__]:>a,Infinity]//Union;
-
-				If[!FreeQ[Map[Function[x,Map[Count[x,#,Infinity]&,sumOverInds]],diagsConverted],1],
-					Message[FCFAConvert::sumOverWarn]
+				check = Map[Function[x,Map[Count[x,#,Infinity]&,sumOverInds]],diagsConverted];
+				If[!FreeQ[check,1],
+					Message[FCFAConvert::sumOverWarn];
+					FCPrint[0, "FCFAConvert: Affected diagrams: ", Position[check, x_ /; ! FreeQ[x, 1]]]
 				]
 			];
 			diagsConverted = diagsConverted/.FeynArts`SumOver[___]:> 1
