@@ -173,14 +173,14 @@ FCLoopTensorReduce[expr_, toposRaw_List, OptionsPattern[]] :=
 		If[	OptionValue[Contract],
 			time=AbsoluteTime[];
 			FCPrint[1,"FCLoopTensorReduce: Applying Contract.", FCDoControl->fctrVerbose];
-			aux = Contract[aux,FCI->True];
+			aux = Contract[aux,FCI->True, FCParallelize->optFCParallelize];
 			FCPrint[1, "FCLoopTensorReduce: Contract done, timing: ", N[AbsoluteTime[] - time, 4], FCDoControl->fctrVerbose]
 		];
 
 		If[	OptionValue[DiracSimplify],
 			time=AbsoluteTime[];
 			FCPrint[1,"FCLoopTensorReduce: Applying DiracSimplify.", FCDoControl->fctrVerbose];
-			aux = DiracSimplify[aux,FCI->True];
+			aux = DiracSimplify[aux,FCI->True, FCParallelize->optFCParallelize];
 			FCPrint[1, "FCLoopTensorReduce: DiracSimplify done, timing: ", N[AbsoluteTime[] - time, 4], FCDoControl->fctrVerbose]
 		];
 
@@ -294,7 +294,7 @@ FCLoopTensorReduce[expr_, toposRaw_List, OptionsPattern[]] :=
 
 			time=AbsoluteTime[];
 			FCPrint[1,"FCLoopTensorReduce: Applying Contract.", FCDoControl->fctrVerbose];
-			res = Contract[res,FCI->True];
+			res = Contract[res,FCI->True, FCParallelize->optFCParallelize];
 
 			If[	$ParallelizeFeynCalc && optFCParallelize,
 				res = res /. Dispatch[ruRev],
