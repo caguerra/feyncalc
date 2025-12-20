@@ -488,7 +488,7 @@ TID[am_/;Head[am]=!=List , q_/; Head[q]=!=List, OptionsPattern[]] :=
 				gramDetValues = Map[FCGramDeterminant[#]&,gramCheckList];
 				gramCheckList = Union[Extract[gramCheckList,Position[gramDetValues,0]]];
 
-				If[	gramCheckList=!={} && optTensorReductionBasisChange==={},
+				If[	gramCheckList=!={} && optTensorReductionBasisChange==={} && !optUsePaVeBasis,
 					Message[TID::zerogram, ToString[gramCheckList,InputForm]];
 				];
 
