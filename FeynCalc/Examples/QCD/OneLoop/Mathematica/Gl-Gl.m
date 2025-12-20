@@ -31,11 +31,17 @@ If[ $FrontEnd === Null,
 If[ $Notebooks === False,
 	$FeynCalcStartupMessages = False
 ];
-$LoadAddOns={"FeynArts"};
+LaunchKernels[4];
+$LoadAddOns={"FeynArts","FeynHelpers"};
 <<FeynCalc`
 $FAVerbose = 0;
+$ParallelizeFeynCalc=True;
 
-FCCheckVersion[9,3,1];
+FCCheckVersion[10,2,0];
+If[ToExpression[StringSplit[$FeynHelpersVersion,"."]][[1]]<2,
+	Print["You need at least FeynHelpers 2.0 to run this example."];
+	Abort[];
+]
 
 
 (* ::Section:: *)
@@ -49,6 +55,9 @@ FCCheckVersion[9,3,1];
 $KeepLogDivergentScalelessIntegrals=True;
 
 
+FAPatch[PatchModelsOnly->True];
+
+
 (* ::Section:: *)
 (*Generate Feynman diagrams*)
 
@@ -57,8 +66,8 @@ $KeepLogDivergentScalelessIntegrals=True;
 (*Nicer typesetting*)
 
 
-MakeBoxes[mu,TraditionalForm]:="\[Mu]";
-MakeBoxes[nu,TraditionalForm]:="\[Nu]";
+FCAttachTypesettingRule[mu,"\[Mu]"];
+FCAttachTypesettingRule[nu,"\[Nu]"];
 
 
 diags = InsertFields[CreateTopologies[1, 1 -> 1, ExcludeTopologies->{Tadpoles}],
@@ -79,9 +88,12 @@ Paint[diags, ColumnsXRows -> {2,2}, Numbering -> Simple,
 
 amp[0] = FCFAConvert[CreateFeynAmp[diags, Truncated -> True, GaugeRules->{},
 	PreFactor->1], IncomingMomenta->{p}, OutgoingMomenta->{p},LoopMomenta->{q},
-	LorentzIndexNames->{mu,nu}, UndoChiralSplittings->True,
-	ChangeDimension->D, List->True, SMP->True, DropSumOver->True,
-	Contract->True,FinalSubstitutions->{SMP["m_u"]->SMP["m_q"]}]
+	UndoChiralSplittings->True,LorentzIndexNames->{mu,nu},
+	ChangeDimension->D, List->True, DropSumOver->True,
+	FinalSubstitutions->{FCGV["MU"]->SMP["m_q"]}];
+
+
+amp[1]=amp[0]//Contract[#,FCParallelize->True]&;
 
 
 (* ::Section:: *)
@@ -96,7 +108,7 @@ amp[0] = FCFAConvert[CreateFeynAmp[diags, Truncated -> True, GaugeRules->{},
 (*This contribution is zero in dimensional regularization, because the loop integrals have no scale (and they are not log divergent)*)
 
 
-amp1[0] = TID[amp[0][[1]], q, ToPaVe->True]
+amp1[0] = TID[amp[1][[1]], q, ToPaVe->True,FCParallelize->True]
 
 
 FCCompareResults[amp1[0],0,
@@ -108,7 +120,8 @@ Text->{"\tThe gluon tadpole vanishes:",
 (*The quark loop*)
 
 
-amp2[0] = amp[0][[2]]//SUNSimplify//TID[#, q, ToPaVe->True]&
+amp2[0] = amp[1][[2]]//SUNSimplify[#,FCParallelize->True]&//
+TID[#, q, ToPaVe->True,FCParallelize->True]&
 
 
 (* ::Text:: *)
@@ -125,21 +138,23 @@ Text->{"\tThe quark loop contribution is gauge invariant:",
 (*The ghost loop*)
 
 
-amp3[0] = amp[0][[3]]//SUNSimplify//TID[#, q, ToPaVe->True]&
+amp3[0] = amp[0][[3]]//SUNSimplify[#,FCParallelize->True]&//
+TID[#, q, ToPaVe->True,FCParallelize->True]&
 
 
 (* ::Text:: *)
 (*The contribution of the gluon loop alone is not gauge invariant.*)
 
 
-tmp1=Contract[FVD[p,mu]FVD[p,nu] amp3[0]]//Factor
+tmp1=Contract[FVD[p,mu]FVD[p,nu] amp3[0],FCParallelize->True]//Factor
 
 
 (* ::Subsection:: *)
 (*The gluon loop*)
 
 
-amp4[0] = amp[0][[4]]//SUNSimplify//TID[#, q, ToPaVe->True]&
+amp4[0] = amp[0][[4]]//SUNSimplify[#,FCParallelize->True]&//
+TID[#, q, ToPaVe->True,FCParallelize->True]&
 
 
 (* ::Text:: *)
@@ -147,7 +162,7 @@ amp4[0] = amp[0][[4]]//SUNSimplify//TID[#, q, ToPaVe->True]&
 (*of the ghost and gluon contributions is gauge invariant!*)
 
 
-tmp2=Contract[FVD[p,mu]FVD[p,nu] amp4[0]]//Factor
+tmp2=Contract[FVD[p,mu]FVD[p,nu] amp4[0],FCParallelize->True]//Factor
 
 
 FCCompareResults[tmp1+tmp2,0,
@@ -196,3 +211,6 @@ Text->{"\tCompare to Muta, Foundations of QCD, \
 Eqs 2.5.131-2.5.132:",
 "CORRECT.","WRONG!"}, Interrupt->{Hold[Quit[1]],Automatic}];
 Print["\tCPU Time used: ", Round[N[TimeUsed[],4],0.001], " s."];
+
+
+
