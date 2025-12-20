@@ -632,6 +632,13 @@ colorSimplifyGeneric[rest_. sunf[r1___,a_SUNIndex, r2___] holdDOTColor[r3___,SUN
 	I colorSimplifyGeneric[rest holdDOTColor[r3,SUNT[First[{r2,r1}]], SUNT[Last[{r2,r1}]],r4]]
 	)/; Length[{r2,r1}]===2;
 
+(* f^abc (... T^a ...)_ij *)
+colorSimplifyGeneric[rest_. sunf[r1___,a_SUNIndex, r2___] SUNTF[{r3___,a_SUNIndex,r4___},i_,j_]]  :=
+	(
+	I colorSimplifyGeneric[rest SUNTF[{r3,Last[{r2,r1}],First[{r2,r1}],r4},i,j]] -
+	I colorSimplifyGeneric[rest SUNTF[{r3,First[{r2,r1}],Last[{r2,r1}],r4},i,j]]
+	)/; Length[{r2,r1}]===2;
+
 (* f^abc Tr(... T^a ...) *)
 colorSimplifyGeneric[rest_. sunf[r1___,a_SUNIndex, r2___] sunTrace[holdDOTColor[r3___,SUNT[a_SUNIndex],r4___]]]  :=
 	(
