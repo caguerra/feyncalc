@@ -100,6 +100,7 @@ Options[TID] = {
 	FCI 									-> False,
 	FCLoopMixedToCartesianAndTemporal 		-> True,
 	FCLoopRemoveNegativePropagatorPowers	-> True,
+	FCParallelize							-> False,
 	FCVerbose 								-> False,
 	FDS 									-> True,
 	Factoring 								-> {Factor2, 5000},
@@ -124,9 +125,30 @@ Options[TID] = {
 TID[am_ , {q_}, opts:OptionsPattern[]] :=
 	TID[am, q, opts]
 
+(* TID[{..., ...}, q] *)
+TID[expr_List, q_/; Head[q]=!=List, opts:OptionsPattern[]] :=
+	Block[{tidVerbose, res, optFCParallelize, time},
 
-TID[am_List, q_/; Head[q]=!=List, opts:OptionsPattern[]]:=
-	Map[TID[#,q,opts]&,am];
+		If [OptionValue[FCVerbose]===False,
+			tidVerbose=$VeryVerbose,
+			If[MatchQ[OptionValue[FCVerbose], _Integer],
+				tidVerbose=OptionValue[FCVerbose]
+			];
+		];
+
+		If[	$ParallelizeFeynCalc && OptionValue[FCParallelize],
+			FCPrint[1,"TID: Applying TID in parallel.", FCDoControl->tidVerbose];
+			res = ParallelMap[TID[#, q, FilterRules[{opts}, Except[FCParallelize | FCVerbose]]]&,expr,
+			DistributedContexts -> None, Method->"ItemsPerEvaluation" -> Ceiling[N[Length[expr]/$KernelCount]/10]];
+			FCPrint[1, "TID: Done applying TID in parallel, timing: ", N[AbsoluteTime[] - time, 4], FCDoControl->tidVerbose],
+
+			FCPrint[1,"TID: Applying TID.", FCDoControl->tidVerbose];
+			res = Map[TID[#,q,FilterRules[{opts}, Except[FCParallelize | FCVerbose]]]&,expr];
+			FCPrint[1, "TID: Done applying TID, timing: ", N[AbsoluteTime[] - time, 4], FCDoControl->tidVerbose]
+		];
+
+		res
+	];
 
 TID[am_/;Head[am]=!=List , q_/; Head[q]=!=List, OptionsPattern[]] :=
 	Block[ {n, t0, t1, null1, null2,
