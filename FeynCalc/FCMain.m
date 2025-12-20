@@ -374,7 +374,7 @@ dimensions. Following schemes are supported:
 - \"None\" - This is the default value. The anticommutator relation is not
 applied to $D-1$ dimensional Pauli matrices.
 
-- \"Naive\" - Naively apply the commutator relation in $D-1$-dimensions, i.e. 
+- \"Naive\" - Naively apply the commutator relation in $D-1$-dimensions, i.e.
 $\{\\sigma^i, \\sigma^j \} = 2 i \\varepsilon^{ijk} \\sigma^k$. The Levi-Civita
 tensor lives in $D-1$-dimensions, so that a contraction of two such tensors
 which have all indices in common yields $(D-3) (D-2) (D-1)$.";
@@ -406,6 +406,213 @@ FCStyle;
 End[]
 
 Begin["`Private`"];
+
+
+
+$Abbreviations /:
+	Set[$Abbreviations , val_] :=
+		(
+		If[	$ParallelizeFeynCalc && ($KernelID===0),
+			With[{xxx=val},	ParallelEvaluate[OwnValues[$Abbreviations] = {HoldPattern[$Abbreviations] :> xxx};,DistributedContexts -> None]];
+		];
+
+		With[{xxx=val},	OwnValues[$Abbreviations] = {HoldPattern[$Abbreviations] :> xxx}];
+
+		val
+		);
+
+$Containers /:
+	Set[$Containers , val_] :=
+		(
+		If[	$ParallelizeFeynCalc && ($KernelID===0),
+			With[{xxx=val},	ParallelEvaluate[OwnValues[$Containers] = {HoldPattern[$Containers] :> xxx};,DistributedContexts -> None]];
+		];
+
+		With[{xxx=val},	OwnValues[$Containers] = {HoldPattern[$Containers] :> xxx}];
+
+		val
+		);
+
+$DisableMemSet /:
+	Set[$DisableMemSet , val_] :=
+		(
+		If[	$ParallelizeFeynCalc && ($KernelID===0),
+			With[{xxx=val},	ParallelEvaluate[OwnValues[$DisableMemSet] = {HoldPattern[$DisableMemSet] :> xxx};,DistributedContexts -> None]];
+		];
+
+		With[{xxx=val},	OwnValues[$DisableMemSet] = {HoldPattern[$DisableMemSet] :> xxx}];
+
+		val
+		);
+
+$DistributiveFunctions /:
+	Set[$DistributiveFunctions , val_] :=
+		(
+		If[	$ParallelizeFeynCalc && ($KernelID===0),
+			With[{xxx=val},	ParallelEvaluate[OwnValues[$DistributiveFunctions] = {HoldPattern[$DistributiveFunctions] :> xxx};,DistributedContexts -> None]];
+		];
+
+		With[{xxx=val},	OwnValues[$DistributiveFunctions] = {HoldPattern[$DistributiveFunctions] :> xxx}];
+
+		val
+		);
+
+$FCShowIEta /:
+	Set[$FCShowIEta , val_] :=
+		(
+		If[	$ParallelizeFeynCalc && ($KernelID===0),
+			With[{xxx=val},	ParallelEvaluate[OwnValues[$FCShowIEta] = {HoldPattern[$FCShowIEta] :> xxx};,DistributedContexts -> None]];
+		];
+
+		With[{xxx=val},	OwnValues[$FCShowIEta] = {HoldPattern[$FCShowIEta] :> xxx}];
+
+		val
+		);
+
+$KeepLogDivergentScalelessIntegrals /:
+	Set[$KeepLogDivergentScalelessIntegrals , val_] :=
+		(
+		If[	$ParallelizeFeynCalc && ($KernelID===0),
+			With[{xxx=val},	ParallelEvaluate[OwnValues[$KeepLogDivergentScalelessIntegrals] = {HoldPattern[$KeepLogDivergentScalelessIntegrals] :> xxx};,DistributedContexts -> None]];
+		];
+
+		With[{xxx=val},	OwnValues[$KeepLogDivergentScalelessIntegrals] = {HoldPattern[$KeepLogDivergentScalelessIntegrals] :> xxx}];
+
+		val
+		);
+
+$LeviCivitaSign /:
+	Set[$LeviCivitaSign , val_] :=
+		(
+		If[	$ParallelizeFeynCalc && ($KernelID===0),
+			With[{xxx=val},	ParallelEvaluate[OwnValues[$LeviCivitaSign] = {HoldPattern[$LeviCivitaSign] :> xxx};,DistributedContexts -> None]];
+		];
+
+		With[{xxx=val},	OwnValues[$LeviCivitaSign] = {HoldPattern[$LeviCivitaSign] :> xxx}];
+
+		val
+		);
+
+$LimitTo4 /:
+	Set[$LimitTo4 , val_] :=
+		(
+		If[	$ParallelizeFeynCalc && ($KernelID===0),
+			With[{xxx=val},	ParallelEvaluate[OwnValues[$LimitTo4] = {HoldPattern[$LimitTo4] :> xxx};,DistributedContexts -> None]];
+		];
+
+		With[{xxx=val},	OwnValues[$LimitTo4] = {HoldPattern[$LimitTo4] :> xxx}];
+
+		val
+		);
+
+$LimitTo4IRUnsafe /:
+	Set[$LimitTo4IRUnsafe , val_] :=
+		(
+		If[	$ParallelizeFeynCalc && ($KernelID===0),
+			With[{xxx=val},	ParallelEvaluate[OwnValues[$LimitTo4IRUnsafe] = {HoldPattern[$LimitTo4IRUnsafe] :> xxx};,DistributedContexts -> None]];
+		];
+
+		With[{xxx=val},	OwnValues[$LimitTo4IRUnsafe] = {HoldPattern[$LimitTo4IRUnsafe] :> xxx}];
+
+		val
+		);
+
+$FCMemoryAvailable /:
+	Set[$FCMemoryAvailable , val_] :=
+		(
+		If[	$ParallelizeFeynCalc && ($KernelID===0),
+			With[{xxx=val},	ParallelEvaluate[OwnValues[$FCMemoryAvailable] = {HoldPattern[$FCMemoryAvailable] :> xxx};,DistributedContexts -> None]];
+		];
+
+		With[{xxx=val},	OwnValues[$FCMemoryAvailable] = {HoldPattern[$FCMemoryAvailable] :> xxx}];
+
+		val
+		);
+
+$Multiplications /:
+	Set[$Multiplications , val_] :=
+		(
+		If[	$ParallelizeFeynCalc && ($KernelID===0),
+			With[{xxx=val},	ParallelEvaluate[OwnValues[$Multiplications] = {HoldPattern[$Multiplications] :> xxx};,DistributedContexts -> None]];
+		];
+
+		With[{xxx=val},	OwnValues[$Multiplications] = {HoldPattern[$Multiplications] :> xxx}];
+
+		val
+		);
+
+$OPEWard /:
+	Set[$OPEWard , val_] :=
+		(
+		If[	$ParallelizeFeynCalc && ($KernelID===0),
+			With[{xxx=val},	ParallelEvaluate[OwnValues[$OPEWard] = {HoldPattern[$OPEWard] :> xxx};,DistributedContexts -> None]];
+		];
+
+		With[{xxx=val},	OwnValues[$OPEWard] = {HoldPattern[$OPEWard] :> xxx}];
+
+		val
+		);
+
+$NonComm /:
+	Set[$NonComm , val_] :=
+		(
+		If[	$ParallelizeFeynCalc && ($KernelID===0),
+			With[{xxx=val},	ParallelEvaluate[OwnValues[$NonComm] = {HoldPattern[$NonComm] :> xxx};,DistributedContexts -> None]];
+		];
+
+		With[{xxx=val},	OwnValues[$NonComm] = {HoldPattern[$NonComm] :> xxx}];
+
+		val
+		);
+
+
+$FCTensorList /:
+	Set[$FCTensorList , val_] :=
+		(
+		If[	$ParallelizeFeynCalc && ($KernelID===0),
+			With[{xxx=val},	ParallelEvaluate[OwnValues[$FCTensorList] = {HoldPattern[$FCTensorList] :> xxx};,DistributedContexts -> None]];
+		];
+
+		With[{xxx=val},	OwnValues[$FCTensorList] = {HoldPattern[$FCTensorList] :> xxx}];
+
+		val
+		);
+
+$ScalarProducts /:
+	Set[$ScalarProducts , val_] :=
+		(
+		If[	$ParallelizeFeynCalc && ($KernelID===0),
+			With[{xxx=val},	ParallelEvaluate[OwnValues[$ScalarProducts] = {HoldPattern[$ScalarProducts] :> xxx};,DistributedContexts -> None]];
+		];
+
+		With[{xxx=val},	OwnValues[$ScalarProducts] = {HoldPattern[$ScalarProducts] :> xxx}];
+
+		val
+		);
+
+$FCDefaultLightconeVectorN /:
+	Set[$FCDefaultLightconeVectorN , val_] :=
+		(
+		If[	$ParallelizeFeynCalc && ($KernelID===0),
+			With[{xxx=val},	ParallelEvaluate[OwnValues[$FCDefaultLightconeVectorN] = {HoldPattern[$FCDefaultLightconeVectorN] :> xxx};,DistributedContexts -> None]];
+		];
+
+		With[{xxx=val},	OwnValues[$FCDefaultLightconeVectorN] = {HoldPattern[$FCDefaultLightconeVectorN] :> xxx}];
+
+		val
+		);
+
+$FCDefaultLightconeVectorNB /:
+	Set[$FCDefaultLightconeVectorNB , val_] :=
+		(
+		If[	$ParallelizeFeynCalc && ($KernelID===0),
+			With[{xxx=val},	ParallelEvaluate[OwnValues[$FCDefaultLightconeVectorNB] = {HoldPattern[$FCDefaultLightconeVectorNB] :> xxx};,DistributedContexts -> None]];
+		];
+
+		With[{xxx=val},	OwnValues[$FCDefaultLightconeVectorNB] = {HoldPattern[$FCDefaultLightconeVectorNB] :> xxx}];
+
+		val
+		);
 
 $Abbreviations = {
 	", "->"",
@@ -456,12 +663,6 @@ $ParallelizeFeynCalc/:
 		OwnValues[$ParallelizeFeynCalc] = {HoldPattern[$ParallelizeFeynCalc] :> True};
 		True
 		)
-
-(*	Mathematica versions 8 and 9 do not have the $SystemMemory variable,
-	so for them we set the available memory for memoization to 4 GiB*)
-If[	!MatchQ[$FCMemoryAvailable,_Integer?NonNegative],
-	$FCMemoryAvailable=4096
-];
 
 If[ !ValueQ[$VeryVerbose],
 	$VeryVerbose   = 0
@@ -525,6 +726,9 @@ FCDisableTraditionalFormOutput[]:=
 
 FCSetDiracGammaScheme[s_String]:=
 	If[	MatchQ[s,"NDR"|"NDR-Discard"|"BMHV"|"Larin"],
+		If[	$ParallelizeFeynCalc && ($KernelID===0),
+			With[{xxx=s},	ParallelEvaluate[FeynCalc`Package`DiracGammaScheme = xxx;,DistributedContexts -> None]];
+		];
 		FeynCalc`Package`DiracGammaScheme = s,
 		Message[FeynCalc::failmsg, "Unknown scheme for Dirac matrices in D dimensions."];
 		Abort[]
@@ -535,6 +739,10 @@ FCGetDiracGammaScheme[]:=
 
 FCSetPauliSigmaScheme[s_String]:=
 	If[	MatchQ[s,"None"|"Naive"],
+
+		If[	$ParallelizeFeynCalc && ($KernelID===0),
+			With[{xxx=s},	ParallelEvaluate[FeynCalc`Package`PauliSigmaScheme = xxx;,DistributedContexts -> None]];
+		];
 		FeynCalc`Package`PauliSigmaScheme = s,
 		Message[FeynCalc::failmsg, "Unknown scheme for Pauli matrices in D-1 dimensions."];
 		Abort[]
@@ -548,6 +756,13 @@ FCSetMetricSignature[{t_Integer,s_Integer}]:=
 	If[ {s^2,t^2}=!={1,1},
 		Message[FeynCalc::failmsg, "The square of each diagonal element of the metric tensor must be unity."];
 		Abort[]
+	];
+
+	If[	$ParallelizeFeynCalc && ($KernelID===0),
+			With[{xxx=t,yyy=s},
+				ParallelEvaluate[FeynCalc`Package`MetricT = xxx;
+				ParallelEvaluate[FeynCalc`Package`MetricS = yyy;, DistributedContexts -> None]];
+			];
 	];
 	FeynCalc`Package`MetricT = t;
 	FeynCalc`Package`MetricS = s;
