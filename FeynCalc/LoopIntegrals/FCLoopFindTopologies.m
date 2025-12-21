@@ -11,8 +11,13 @@
 	Copyright (C) 2014-2026 Vladyslav Shtabovenko
 *)
 
-(* :Summary:	Extracts sets of propagtors for the topology
-				identification												*)
+(*
+	:Summary:	Extracts sets of propagtors for the topology
+				identification
+
+				Supports parallel evaluation [X]
+
+*)
 
 (* ------------------------------------------------------------------------ *)
 

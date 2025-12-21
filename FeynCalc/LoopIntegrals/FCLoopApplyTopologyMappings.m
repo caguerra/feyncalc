@@ -11,7 +11,11 @@
 	Copyright (C) 2014-2026 Vladyslav Shtabovenko
 *)
 
-(* :Summary:  	Applyies known mappings between topologies					*)
+(*
+	:Summary:  	Applyies known mappings between topologies
+
+				Supports parallel evaluation [X]
+*)
 
 (* ------------------------------------------------------------------------ *)
 

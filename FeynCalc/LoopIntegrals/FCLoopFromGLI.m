@@ -11,7 +11,11 @@
 	Copyright (C) 2014-2026 Vladyslav Shtabovenko
 *)
 
-(* :Summary:  	Converts GLIs to FADs										*)
+(*
+	:Summary:  	Converts GLIs to FADs
+
+				Supports parallel evaluation [X]
+*)
 
 (* ------------------------------------------------------------------------ *)
 

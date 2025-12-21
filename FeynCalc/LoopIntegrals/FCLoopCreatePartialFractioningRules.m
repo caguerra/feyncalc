@@ -11,7 +11,12 @@
 	Copyright (C) 2014-2026 Vladyslav Shtabovenko
 *)
 
-(* :Summary:	Creates GLI-replacement rules for subtopologies				*)
+(*
+	:Summary:	Creates GLI-replacement rules for subtopologies
+
+					Supports parallel evaluation [X]
+
+*)
 
 (* ------------------------------------------------------------------------ *)
 

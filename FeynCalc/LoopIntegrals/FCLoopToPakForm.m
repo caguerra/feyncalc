@@ -11,8 +11,12 @@
 	Copyright (C) 2014-2026 Vladyslav Shtabovenko
 *)
 
-(* :Summary:  	Obtains a canonical (Pak) representation of the given
-				FeynCalc integral 											*)
+(*
+	:Summary:  	Obtains a canonical (Pak) representation of the given
+				FeynCalc integral
+
+				Supports parallel evaluation [X]
+*)
 
 (* ------------------------------------------------------------------------ *)
 

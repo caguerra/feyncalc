@@ -12,7 +12,10 @@
 *)
 
 (* :Summary:  	Calculates building blocks needed for a Feynman
-				parametrization of a multi-loop integral					*)
+				parametrization of a multi-loop integral
+
+				Supports parallel evaluation [X]
+*)
 
 (* ------------------------------------------------------------------------ *)
 

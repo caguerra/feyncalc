@@ -11,8 +11,13 @@
 	Copyright (C) 2014-2026 Vladyslav Shtabovenko
 *)
 
-(* :Summary: 	Like DiracTrick, but including non-commutative expansions
-				and simplifications of spinor chains						*)
+(*
+	:Summary: 	Like DiracTrick, but including non-commutative expansions
+				and simplifications of spinor chains
+
+				Supports parallel evaluation [X]
+*)
+
 
 (* ------------------------------------------------------------------------ *)
 

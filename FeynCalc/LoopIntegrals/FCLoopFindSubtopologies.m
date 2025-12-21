@@ -11,7 +11,12 @@
 	Copyright (C) 2014-2026 Vladyslav Shtabovenko
 *)
 
-(* :Summary:  	Reveal subtopologies of a larger topology					*)
+(*
+	:Summary:  	Reveal subtopologies of a larger topology
+
+				Supports parallel evaluation [X]
+
+*)
 
 (* ------------------------------------------------------------------------ *)
 

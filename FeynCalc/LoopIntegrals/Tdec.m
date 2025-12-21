@@ -11,8 +11,12 @@
 	Copyright (C) 2014-2026 Vladyslav Shtabovenko
 *)
 
-(* :Summary:	Computes tensor decompositions for multiloop integrals
-				using projection methods			 						*)
+(*
+	:Summary:	Computes tensor decompositions for multiloop integrals
+				using projection methods
+
+				Supports parallel evaluation [X]
+*)
 
 (* ------------------------------------------------------------------------ *)
 

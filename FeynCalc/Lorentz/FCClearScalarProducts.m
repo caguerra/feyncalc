@@ -11,7 +11,11 @@
 	Copyright (C) 2014-2026 Vladyslav Shtabovenko
 *)
 
-(* :Summary:  Clears definitions of scalar products						    *)
+(*
+	:Summary:	Clears definitions of scalar products
+
+				Supports parallel evaluation [X]
+*)
 
 (* ------------------------------------------------------------------------ *)
 

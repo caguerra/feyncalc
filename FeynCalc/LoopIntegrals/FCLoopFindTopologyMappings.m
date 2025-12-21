@@ -11,7 +11,11 @@
 	Copyright (C) 2014-2026 Vladyslav Shtabovenko
 *)
 
-(* :Summary:  	Mappings between same type topologies						*)
+(*
+	:Summary:  	Mappings between same type topologies
+				Supports parallel evaluation [X]
+
+*)
 
 (* ------------------------------------------------------------------------ *)
 

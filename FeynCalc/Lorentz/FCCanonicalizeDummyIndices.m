@@ -9,7 +9,11 @@
 	Copyright (C) 2014-2026 Vladyslav Shtabovenko
 *)
 
-(* :Summary:  Canonicalizes dummy Lorentz indices *)
+(*
+	:Summary:	Canonicalizes dummy Lorentz indices
+
+				Supports parallel evaluation [X]
+*)
 
 (* ------------------------------------------------------------------------ *)
 

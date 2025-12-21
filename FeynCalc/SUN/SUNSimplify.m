@@ -9,7 +9,11 @@
 	Copyright (C) 2014-2026 Vladyslav Shtabovenko
 *)
 
-(* :Summary:  Color algebra simplifications									*)
+(*
+	:Summary:	Color algebra simplifications
+
+				Supports parallel evaluation [X]
+*)
 
 (* ------------------------------------------------------------------------ *)
 
