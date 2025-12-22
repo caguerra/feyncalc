@@ -233,44 +233,45 @@ FCLoopTensorReduce[expr_, toposRaw_List, OptionsPattern[]] :=
 			tdecListEval = tdecList /. Dispatch[optTensorReductionBasisChange],
 			tdecListEval  = tdecList
 		];
+		If[tdecListEval=!={},
 
-		gramCheckList = tdecListEval /. loopNumerator[_ extMomsList[p_List] ] :> p;
-		gramDetValues = Map[FCGramDeterminant[#]&,gramCheckList];
-		gramCheckList = Union[Extract[gramCheckList,Position[gramDetValues,0]]];
+			gramCheckList = tdecListEval /. loopNumerator[_ extMomsList[p_List] ] :> p;
+			gramDetValues = Map[FCGramDeterminant[#]&,gramCheckList];
+			gramCheckList = Union[Extract[gramCheckList,Position[gramDetValues,0]]];
 
-		If[	gramCheckList=!={},
-			Message[FCLoopTensorReduce::failmsg,"Following sets of external momenta are linearly dependent: " <> ToString[gramCheckList,InputForm] <>
-				". Please find a set of linearly independent momenta using FCLoopFindTensorBasis and supply it to the function via the option TensorReductionBasisChange."];
-			Abort[];
+			If[	gramCheckList=!={},
+				Message[FCLoopTensorReduce::failmsg,"Following sets of external momenta are linearly dependent: " <> ToString[gramCheckList,InputForm] <>
+					". Please find a set of linearly independent momenta using FCLoopFindTensorBasis and supply it to the function via the option TensorReductionBasisChange."];
+				Abort[];
+			];
+
+
+			If[	$ParallelizeFeynCalc && OptionValue[FCParallelize],
+					FCPrint[1,"FCLoopTensorReduce: Applying Tdec to a list in parallel." , FCDoControl->fctrVerbose];
+
+
+					tdecListEval = ParallelMap[(#/. loopNumerator -> loopNumeratorEval)&,tdecListEval, DistributedContexts->None,
+						(*Method->"CoarsestGrained"*)
+						(*Split the input into smaller chunks. We take the total number of expressions and divide it by the number of the kernels. This
+						number is then broken into 10 chunks*)
+						Method->"ItemsPerEvaluation" -> Ceiling[N[Length[tdecListEval]/$KernelCount]/10]
+						],
+					FCPrint[1,"FCLoopTensorReduce: Applying Tdec to a list." , FCDoControl->fctrVerbose];
+					tdecListEval = tdecListEval /. loopNumerator -> loopNumeratorEval;
+			];
+			FCPrint[1, "FCLoopTensorReduce: Done applying Tdec, timing: ", N[AbsoluteTime[] - time, 4], FCDoControl->fctrVerbose];
+
+			If[	optFinalSubstitutions=!={},
+				tdecListEval = tdecListEval/. optFinalSubstitutions
+			];
+
+			FCPrint[3,"FCLoopTensorReduce: After Tdec:" , tdecListEval, FCDoControl->fctrVerbose];
+
+			If[	!FreeQ[tdecListEval,loopNumeratorEval],
+				Message[FCLoopTensorReduce::failmsg,"Tensor reduction failed."];
+				Abort[]
+			];
 		];
-
-
-		If[	$ParallelizeFeynCalc && OptionValue[FCParallelize],
-				FCPrint[1,"FCLoopTensorReduce: Applying Tdec to a list in parallel." , FCDoControl->fctrVerbose];
-
-
-				tdecListEval = ParallelMap[(#/. loopNumerator -> loopNumeratorEval)&,tdecListEval, DistributedContexts->None,
-					(*Method->"CoarsestGrained"*)
-					(*Split the input into smaller chunks. We take the total number of expressions and divide it by the number of the kernels. This
-					number is then broken into 10 chunks*)
-					Method->"ItemsPerEvaluation" -> Ceiling[N[Length[tdecListEval]/$KernelCount]/10]
-					],
-				FCPrint[1,"FCLoopTensorReduce: Applying Tdec to a list." , FCDoControl->fctrVerbose];
-				tdecListEval = tdecListEval /. loopNumerator -> loopNumeratorEval;
-		];
-		FCPrint[1, "FCLoopTensorReduce: Done applying Tdec, timing: ", N[AbsoluteTime[] - time, 4], FCDoControl->fctrVerbose];
-
-		If[	optFinalSubstitutions=!={},
-			tdecListEval = tdecListEval/. optFinalSubstitutions
-		];
-
-		FCPrint[3,"FCLoopTensorReduce: After Tdec:" , tdecListEval, FCDoControl->fctrVerbose];
-
-		If[	!FreeQ[tdecListEval,loopNumeratorEval],
-			Message[FCLoopTensorReduce::failmsg,"Tensor reduction failed."];
-			Abort[]
-		];
-
 		time=AbsoluteTime[];
 		FCPrint[1,"FCLoopTensorReduce: Inserting the results.", FCDoControl->fctrVerbose];
 		auxRule = Dispatch[Thread[Rule[tdecList, tdecListEval]]];
