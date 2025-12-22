@@ -170,16 +170,23 @@ ScalarProduct/:
 				];
 			];
 
-			If[	$ParallelizeFeynCalc && OptionValue[ScalarProduct,{c},FCParallelize],
+			If[	$ParallelizeFeynCalc && OptionValue[ScalarProduct,{c},FCParallelize] && ($KernelID===0),
 				FCPrint[1,"ScalarProduct: Setting scalar product value on subkernels. ", FCDoControl->spVerbose];
 				With[{xxx=dims,yyy=z},
 					ParallelEvaluate[setScalarProduct[araw,braw, yyy, xxx, spVerbose];,DistributedContexts -> None]];
 				FCPrint[1,"ScalarProduct: Done setting scalar product value on subkernels. ", FCDoControl->spVerbose]
 			];
 
-			FCPrint[1,"ScalarProduct: Setting scalar product value on the main kernel. ", FCDoControl->spVerbose];
+			FCPrint[1,"ScalarProduct: Setting scalar product value on the kernel ", $KernelID, FCDoControl->spVerbose];
 			setval = setScalarProduct[araw,braw,z, dims, spVerbose];
-			FCPrint[1,"ScalarProduct: Done setting scalar product value on the main kernel. ", FCDoControl->spVerbose];
+			FCPrint[1,"ScalarProduct: Done setting scalar product value on the kernel ", $KernelID,  FCDoControl->spVerbose];
+
+			(* If we are in the parallel mode and on the master kernel, need to check whether these values have already been set on subkernels*)
+			If[$ParallelizeFeynCalc && ($KernelID===0),
+			If[!FCScalarProductsSynchronizedQ[FCVerbose->3],
+				Message[ScalarProduct::notsync]
+			]
+			];
 
 			setval
 		]/; araw=!=0 && braw=!=0 && FCPatternFreeQ[{araw,braw}];
@@ -366,13 +373,6 @@ setScalarProduct[araw_,braw_,z_, dims_, spVerbose_]:=
 		entry= Sort[{Momentum[araw],Momentum[braw]}];
 		If[	!MemberQ[$ScalarProducts,entry],
 			AppendTo[$ScalarProducts,entry]
-		];
-
-		(* If we are in the parallel mode and on the master kernel, need to check whether these values have already been set on subkernels*)
-		If[$ParallelizeFeynCalc && ($KernelID===0),
-			If[!FCScalarProductsSynchronizedQ[],
-				Message[ScalarProduct::notsync]
-			]
 		];
 
 		setval

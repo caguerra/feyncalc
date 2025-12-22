@@ -47,7 +47,7 @@ compareValues[head_,vtype_,spsVerbose_]:=
 		parallelKernels = With[{xxx=head,yyy=vtype},ParallelEvaluate[yyy[xxx], DistributedContexts -> None]];
 		Table[
 		If[	Length[currentKernel]=!=Length[parallelKernels[[i]]],
-			FCPrint[1,"FCScalarProductsSynchronizedQ: Length missmatch between downvalues for "<>ToString[head]<>" on the master kernel and a subkernel: ",
+			FCPrint[1,"FCScalarProductsSynchronizedQ: Length missmatch between downvalues for "<>ToString[head]<>" on the master kernel and the subkernel ", i, ": ",
 				Length[currentKernel]," vs ",Length[parallelKernels[[i]]], FCDoControl->spsVerbose];
 			Throw[False]
 		];
@@ -87,7 +87,7 @@ FCScalarProductsSynchronizedQ[OptionsPattern[]] :=
 				CSPD,
 				CSPE,
 				TC,
-				Momentum,
+				(*Momentum,*)
 				TemporalMomentum,
 				CartesianMomentum,
 				LightConePerpendicularComponent}],
