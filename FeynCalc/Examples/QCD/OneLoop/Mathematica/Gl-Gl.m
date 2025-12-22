@@ -32,16 +32,10 @@ If[ $Notebooks === False,
 	$FeynCalcStartupMessages = False
 ];
 LaunchKernels[4];
-$LoadAddOns={"FeynArts","FeynHelpers"};
+$LoadAddOns={"FeynArts"};
 <<FeynCalc`
 $FAVerbose = 0;
 $ParallelizeFeynCalc=True;
-
-FCCheckVersion[10,2,0];
-If[ToExpression[StringSplit[$FeynHelpersVersion,"."]][[1]]<2,
-	Print["You need at least FeynHelpers 2.0 to run this example."];
-	Abort[];
-]
 
 
 (* ::Section:: *)
@@ -211,6 +205,4 @@ Text->{"\tCompare to Muta, Foundations of QCD, \
 Eqs 2.5.131-2.5.132:",
 "CORRECT.","WRONG!"}, Interrupt->{Hold[Quit[1]],Automatic}];
 Print["\tCPU Time used: ", Round[N[TimeUsed[],4],0.001], " s."];
-
-
 
